@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="majorelleBlue">#FF6E44FF</color>
+    <color name="tropicalIndigo">#FFB892FF</color>
+    <color name="lavenderPink">#FFFFC2E2</color>
+    <color name="bakerMillerPink">#FFFF90B3</color>
+    <color name="lightCoral">#FFEF7A85</color>
 </resources>
