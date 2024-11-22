@@ -1,0 +1,19 @@
+package com.example.dancebuddy.coredata
+
+object TemplateData {
+    private const val DATE = "2000-01-01"
+    private const val TIME = "12:00:00"
+    private val danceClass = DanceClass("HipHop (Advanced)", "" ,"Monday, Wednesday", TIME)
+    private val event = Event("Warsztaty", "Warsztaty taneczne z A. Golcem", DATE, TIME)
+    private val notification =
+        Notification("Zmiana instruktora",
+            "Zmiana instruktora prowadządzego: z R*** T*** na P*** K***" +
+                    "\nZajęcia: HipHop (Advanced) - poniedziałek",
+            DATE, TIME)
+    private val profile = DancerProfile(0, "Name", "Surname", "user.name@gmail.com", "password")
+
+    fun getClass() = danceClass
+    fun getEvent() = event
+    fun getNotification() = notification
+    fun getProfile() = profile
+}
