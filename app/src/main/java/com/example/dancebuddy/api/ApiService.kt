@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @GET("dance_class/")
@@ -18,8 +19,8 @@ interface ApiService {
     @GET("data/user/")
     fun getDancerProfiles(): Call<List<DancerProfile>>
 
-//    @GET("data/user/{pk}/")
-//    fun getDancerProfileById(@Path("pk") pk: Int): Call<DancerProfile>
+    @GET("data/user/{pk}/")
+    fun getUserById(@Path("pk") pk: Int): Call<DancerProfile>
 
     @POST("token/")
     suspend fun login(@Body request: LoginRequest): LoginResponse

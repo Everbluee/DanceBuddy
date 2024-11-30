@@ -14,4 +14,6 @@ data class DancerProfile(
     @SerializedName("last_name") override val lastName: String,
     @SerializedName("username") override val username: String,
     @SerializedName("phone_number") override val phoneNumber: String? = null
-) : UserProfile
+) : UserProfile {
+    fun matchLoggedProfile(username: String, password: String) {}
+}

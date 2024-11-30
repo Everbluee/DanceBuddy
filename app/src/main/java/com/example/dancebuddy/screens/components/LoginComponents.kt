@@ -116,6 +116,8 @@ private fun CardContent(navController: NavHostController) {
                         AuthPreferences.saveAccessToken(response.access)
                         AuthPreferences.saveRefreshToken(response.refresh)
 
+                        //get user by id
+
                         withContext(Dispatchers.Main) {
                             navController.navigate(Routes.HOME.name) {
                                 popUpTo(Routes.LOGIN.name) { inclusive = true }
