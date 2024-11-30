@@ -1,4 +1,4 @@
-package com.example.dancebuddy.components
+package com.example.dancebuddy.screens.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -37,7 +37,7 @@ fun ProfileCard(profile: DancerProfile) {
             modifier = Modifier.padding(15.dp)
         ) {
             ProfilePicture(profile.image)
-            ProfileName(name = profile.name, surname = profile.surname, email = profile.email)
+            ProfileName(name = profile.firstName, surname = profile.lastName, email = profile.email)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.dancebuddy.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,12 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.dancebuddy.components.EmptyEvents
-import com.example.dancebuddy.components.EventCarousel
-import com.example.dancebuddy.components.ProfileCard
-import com.example.dancebuddy.components.Section
-import com.example.dancebuddy.coredata.viewModels.EventViewModel
 import com.example.dancebuddy.coredata.TemplateData
+import com.example.dancebuddy.coredata.viewModels.EventViewModel
+import com.example.dancebuddy.screens.components.EmptyEvents
+import com.example.dancebuddy.screens.components.EventCarousel
+import com.example.dancebuddy.screens.components.LoginCard
+import com.example.dancebuddy.screens.components.ProfileCard
+import com.example.dancebuddy.screens.components.Section
 
 @Composable
 fun HomeScreen(innerPadding: PaddingValues, navController: NavHostController) {
@@ -55,12 +57,6 @@ fun EventScreen(innerPadding: PaddingValues, navController: NavHostController) {
     val eventViewModel: EventViewModel = viewModel()
     val events by eventViewModel.data.observeAsState(initial = emptyList())
     val isLoading by eventViewModel.loading.observeAsState(initial = false)
-
-//    val events = listOf(
-//        TemplateData.getEvent(),
-//        TemplateData.getEvent(),
-//        TemplateData.getEvent(),
-//    )
 
     if (isLoading) {
         Column (
@@ -97,5 +93,18 @@ fun ProfileScreen(innerPadding: PaddingValues, navController: NavHostController)
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ProfileCard(TemplateData.getProfile())
+    }
+}
+
+@Composable
+fun LoginScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        LoginCard(navController)
     }
 }

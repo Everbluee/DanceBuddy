@@ -1,4 +1,4 @@
-package com.example.dancebuddy.components
+package com.example.dancebuddy.screens.components
 
 //TODO: your classes
 //TODO: all classes

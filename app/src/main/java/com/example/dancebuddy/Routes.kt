@@ -4,5 +4,6 @@ enum class Routes {
     HOME,
     PROFILE,
     CLASSES,
-    EVENTS
+    EVENTS,
+    LOGIN
 }

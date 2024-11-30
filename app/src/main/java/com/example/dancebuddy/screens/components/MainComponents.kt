@@ -1,13 +1,11 @@
-package com.example.dancebuddy.components
+package com.example.dancebuddy.screens.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
@@ -18,9 +16,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -39,9 +40,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.dancebuddy.R
 import com.example.dancebuddy.Routes
+import com.example.dancebuddy.coredata.NotificationData
 import com.example.dancebuddy.coredata.viewModels.DanceClassViewModel
 import com.example.dancebuddy.coredata.viewModels.EventViewModel
-import com.example.dancebuddy.coredata.NotificationData
 
 @Composable
 fun Section(title: String, type: String) {
@@ -121,7 +122,7 @@ fun TopBar(navController: NavHostController) {
 
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            containerColor = Color(0xFFB866C4),
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         title = {
@@ -131,11 +132,17 @@ fun TopBar(navController: NavHostController) {
                 overflow = TextOverflow.Ellipsis,
                 letterSpacing = 3.sp,
                 fontSize = 22.sp,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = Color.White
             )
         },
         navigationIcon = {
-            IconButton(enabled = false, onClick = { /* TODO */ }) {
+            IconButton(
+                enabled = false,
+                onClick = { /* TODO */ },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = Color.White,
+                )
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Menu,
                     contentDescription = "Back"
@@ -143,17 +150,22 @@ fun TopBar(navController: NavHostController) {
             }
         },
         actions = {
-            IconButton(onClick = {
-                if (currentRoute != "profile") {
-                    navController.navigate("profile") {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+            IconButton(
+                onClick = {
+                    if (currentRoute != "profile") {
+                        navController.navigate("profile") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
-                }
-            }) {
+                },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = Color.White,
+                )
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Person,
                     contentDescription = "Profile"
@@ -184,25 +196,18 @@ fun NavBar(navController: NavHostController) {
         )
     )
 
-    val defaultIconModifier = Modifier
-        .background(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.onPrimary
-        )
-        .padding(10.dp)
-        .size(26.dp)
-
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
 
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        containerColor = Color(0xFFB866C4),
+        contentColor = Color.White
     ) {
         items.forEach { item ->
+            val isSelected = currentRoute == item.route
             NavigationBarItem(
-                selected = currentRoute == item.route,
+                selected = isSelected,
                 onClick = {
                     if (currentRoute != item.route) {
                         navController.navigate(item.route) {
@@ -219,23 +224,33 @@ fun NavBar(navController: NavHostController) {
                         Icon(
                             imageVector = item.icon,
                             contentDescription = item.label,
-                            modifier = defaultIconModifier
+                            tint = if (isSelected) Color.White else Color(0xFFDED1E2),
+                            modifier = Modifier.size(32.dp)
                         )
                     } else if (item.painter != null) {
                         Icon(
                             painter = item.painter,
                             contentDescription = item.label,
-                            modifier = defaultIconModifier
+                            tint = if (isSelected) Color.White else Color(0xFFDED1E2),
+                            modifier = Modifier.size(32.dp)
                         )
                     }
                 },
                 label = {
                     Text(
                         text = item.label,
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        color = if (isSelected) Color.White else Color(0xFFDED1E2)
                     )
                 },
-                modifier = Modifier.padding(5.dp)
+                modifier = Modifier.padding(5.dp),
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.White,
+                    unselectedIconColor = Color(0xFFDED1E2),
+                    selectedTextColor = Color.White,
+                    unselectedTextColor = Color(0xFFDED1E2),
+                    indicatorColor = Color.Transparent
+                )
             )
         }
     }

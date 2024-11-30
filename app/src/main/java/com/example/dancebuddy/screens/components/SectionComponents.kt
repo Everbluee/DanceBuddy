@@ -1,4 +1,4 @@
-package com.example.dancebuddy.components
+package com.example.dancebuddy.screens.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -101,8 +101,8 @@ fun EventItem(event: Event) {
         Column (
             modifier = Modifier
                 .padding(5.dp)
-            .fillMaxWidth()
-            .wrapContentHeight()
+                .fillMaxWidth()
+                .wrapContentHeight()
         ) {
             Row(
                 modifier = Modifier
