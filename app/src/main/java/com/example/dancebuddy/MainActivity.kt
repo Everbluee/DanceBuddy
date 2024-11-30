@@ -35,6 +35,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        ContextProvider.init(this)
+
         setContent {
             DanceBuddyTheme {
                 App()

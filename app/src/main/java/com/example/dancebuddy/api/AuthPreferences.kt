@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.dancebuddy.ContextProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -13,32 +14,32 @@ object AuthPreferences {
     private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
     private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
 
-    suspend fun saveAccessToken(context: Context, token: String) {
-        context.dataStore.edit { preferences ->
+    suspend fun saveAccessToken(token: String) {
+        ContextProvider.appContext.dataStore.edit { preferences ->
             preferences[ACCESS_TOKEN_KEY] = token
         }
     }
 
-    suspend fun saveRefreshToken(context: Context, token: String) {
-        context.dataStore.edit { preferences ->
+    suspend fun saveRefreshToken(token: String) {
+        ContextProvider.appContext.dataStore.edit { preferences ->
             preferences[REFRESH_TOKEN_KEY] = token
         }
     }
 
-    fun getAccessToken(context: Context): Flow<String?> {
-        return context.dataStore.data.map { preferences ->
+    fun getAccessToken(): Flow<String?> {
+        return ContextProvider.appContext.dataStore.data.map { preferences ->
             preferences[ACCESS_TOKEN_KEY]
         }
     }
 
-    fun getRefreshToken(context: Context): Flow<String?> {
-        return context.dataStore.data.map { preferences ->
+    fun getRefreshToken(): Flow<String?> {
+        return ContextProvider.appContext.dataStore.data.map { preferences ->
             preferences[REFRESH_TOKEN_KEY]
         }
     }
 
-    suspend fun clearTokens(context: Context) {
-        context.dataStore.edit { preferences ->
+    suspend fun clearTokens() {
+        ContextProvider.appContext.dataStore.edit { preferences ->
             preferences.remove(ACCESS_TOKEN_KEY)
             preferences.remove(REFRESH_TOKEN_KEY)
         }

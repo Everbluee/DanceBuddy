@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.dancebuddy.Routes
+import com.example.dancebuddy.api.AuthPreferences
 import com.example.dancebuddy.api.LoginRequest
 import com.example.dancebuddy.api.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
@@ -112,8 +113,8 @@ private fun CardContent(navController: NavHostController) {
                     try {
                         val response = RetrofitClient.apiService.login(loginRequest)
 
-//                        AuthPreferences.saveAccessToken(context, response.access)
-//                        AuthPreferences.saveRefreshToken(context, response.refresh)
+                        AuthPreferences.saveAccessToken(response.access)
+                        AuthPreferences.saveRefreshToken(response.refresh)
 
                         withContext(Dispatchers.Main) {
                             navController.navigate(Routes.HOME.name) {
