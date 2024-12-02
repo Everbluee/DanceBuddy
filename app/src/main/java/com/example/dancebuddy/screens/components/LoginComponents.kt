@@ -4,10 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.dancebuddy.MainUser
 import com.example.dancebuddy.Routes
 import com.example.dancebuddy.api.AuthPreferences
 import com.example.dancebuddy.api.LoginRequest
@@ -44,12 +45,14 @@ fun LoginCard(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(cardBackground())
+            .background(cardBackground()),
+        contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier
                 .padding(start = 30.dp, end = 30.dp, bottom = 70.dp, top = 50.dp)
-                .fillMaxSize(),
+                .fillMaxWidth()
+                .wrapContentHeight(),
             shape = RoundedCornerShape(60.dp),
             elevation = CardDefaults.cardElevation(12.dp),
             colors = CardDefaults.cardColors(Color.White)
@@ -57,7 +60,8 @@ fun LoginCard(navController: NavHostController) {
             Card(
                 modifier = Modifier
                     .padding(24.dp)
-                    .fillMaxSize(),
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
                 shape = RoundedCornerShape(36.dp),
                 colors = CardDefaults.cardColors(Color.White)
             ) {
@@ -78,7 +82,8 @@ private fun CardContent(navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxSize(),
+            .fillMaxWidth()
+            .wrapContentHeight(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -113,10 +118,17 @@ private fun CardContent(navController: NavHostController) {
                     try {
                         val response = RetrofitClient.apiService.login(loginRequest)
 
-                        AuthPreferences.saveAccessToken(response.access)
-                        AuthPreferences.saveRefreshToken(response.refresh)
+                        with(AuthPreferences) {
+                            saveAccessToken(response.access)
+                            saveRefreshToken(response.refresh)
 
-                        //get user by id
+                            val token = decodeToken()
+                            val userID = token?.let { getUserIdFromToken(it) }
+
+                            userID?.let {
+                                MainUser.fetchUserData(userID)
+                            }
+                        }
 
                         withContext(Dispatchers.Main) {
                             navController.navigate(Routes.HOME.name) {
@@ -145,13 +157,14 @@ private fun CardTopBox() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.4f)
+            .wrapContentHeight()
             .background(cardBackground())
     ) {
         Column(
             modifier = Modifier
                 .padding(24.dp)
-                .fillMaxSize(),
+                .fillMaxWidth()
+                .wrapContentHeight(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
