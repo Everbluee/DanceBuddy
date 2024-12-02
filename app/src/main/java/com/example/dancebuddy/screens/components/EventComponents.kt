@@ -60,7 +60,7 @@ fun SingleEventCard(event: Event, index: Int, pagerState: PagerState) {
                 ).value
             },
     ) {
-        event.image?.let {
+        event.getImage().let {
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
                 model = ImageRequest.Builder(LocalContext.current)

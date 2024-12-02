@@ -1,4 +1,9 @@
 package com.example.dancebuddy.api
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LoginRequest(val username: String, val password: String)
-data class LoginResponse(val access: String, val refresh: String, val userID: Int)
+
+@Serializable
+data class LoginResponse(val access: String, val refresh: String)

@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dancebuddy.api.RetrofitClient
-import com.example.dancebuddy.coredata.DanceClass
-import com.example.dancebuddy.coredata.DancerProfile
+import com.example.dancebuddy.coredata.user.DancerProfile
 import kotlinx.coroutines.launch
 import retrofit2.awaitResponse
 

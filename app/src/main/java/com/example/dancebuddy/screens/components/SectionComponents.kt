@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImagePainter
 import com.example.dancebuddy.coredata.DanceClass
 import com.example.dancebuddy.coredata.Event
 import com.example.dancebuddy.coredata.Notification
@@ -89,15 +91,29 @@ fun EventItem(event: Event) {
             .wrapContentHeight()
             .fillMaxWidth()
     ) {
-        event.image?.let {
-            Image(
-                painter = it,
-                contentDescription = it.toString(),
-                modifier = Modifier
-                    .height(150.dp)
-                    .fillMaxWidth()
-            )
+        val image = event.getImage()
+
+        when (image.state) {
+            is AsyncImagePainter.State.Error,
+            is AsyncImagePainter.State.Empty -> {
+
+            }
+
+            is AsyncImagePainter.State.Loading -> {
+                CircularProgressIndicator()
+            }
+
+            is AsyncImagePainter.State.Success -> {
+                Image(
+                    painter = image,
+                    contentDescription = image.toString(),
+                    modifier = Modifier
+                        .height(150.dp)
+                        .fillMaxWidth()
+                )
+            }
         }
+
         Column (
             modifier = Modifier
                 .padding(5.dp)

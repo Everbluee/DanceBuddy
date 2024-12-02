@@ -1,6 +1,7 @@
 package com.example.dancebuddy.coredata
 
-import java.time.LocalDateTime
+import com.example.dancebuddy.coredata.user.DancerProfile
+import java.time.Instant
 
 object TemplateData {
     private const val DATE = "2000-01-01"
@@ -18,7 +19,7 @@ object TemplateData {
         lastName = "Surname",
         email = "user.name@gmail.com",
         password = "password",
-        dateJoined = LocalDateTime.now(),
+        dateJoined = Instant.now(),
         username = "User0"
     )
 

@@ -1,14 +1,11 @@
-package com.example.dancebuddy
+package com.example.dancebuddy.coredata.user
 
 import android.util.Log
-import androidx.compose.ui.graphics.painter.Painter
 import com.example.dancebuddy.api.RetrofitClient
-import com.example.dancebuddy.coredata.DancerProfile
-import com.example.dancebuddy.coredata.UserProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDateTime
+import java.time.Instant
 
 object MainUser : UserProfile {
     lateinit var data: DancerProfile
@@ -40,9 +37,9 @@ object MainUser : UserProfile {
         get() = data.email
     override val password: String
         get() = data.password
-    override val image: Painter?
+    override val image: String?
         get() = data.image
-    override val dateJoined: LocalDateTime
+    override val dateJoined: Instant
         get() = data.dateJoined
     override val firstName: String
         get() = data.firstName

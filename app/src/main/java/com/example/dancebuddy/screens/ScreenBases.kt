@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.dancebuddy.coredata.TemplateData
+import com.example.dancebuddy.coredata.user.MainUser
 import com.example.dancebuddy.coredata.viewModels.EventViewModel
 import com.example.dancebuddy.screens.components.EmptyEvents
 import com.example.dancebuddy.screens.components.EventCarousel
@@ -92,7 +92,7 @@ fun ProfileScreen(innerPadding: PaddingValues, navController: NavHostController)
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfileCard(TemplateData.getProfile())
+        ProfileCard(MainUser)
     }
 }
 

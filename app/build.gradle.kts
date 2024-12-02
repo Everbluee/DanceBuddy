@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("plugin.serialization") version "1.9.10"
 }
 
 android {
@@ -51,8 +52,10 @@ android {
 
 dependencies {
     implementation(libs.retrofit)
+    implementation(libs.serializer)
     implementation(libs.gsonconverter)
     implementation(libs.logging.interceptor)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
