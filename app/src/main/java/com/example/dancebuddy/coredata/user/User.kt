@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import java.time.Instant
 
 @Serializable
-data class DancerProfile(
+data class User(
     @SerialName("id") override val id: Int,
     @SerialName("email") override val email: String,
     @SerialName("password") override val password: String,

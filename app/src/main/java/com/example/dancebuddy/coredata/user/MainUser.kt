@@ -6,29 +6,35 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.Instant
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 object MainUser : UserProfile {
-    lateinit var data: DancerProfile
+    lateinit var data: User
 
-    fun fetchUserData(id: Int) {
-        val call = RetrofitClient.apiService.getUserById(id)
+    suspend fun fetchUserData(id: Int): User {
+        return suspendCoroutine { continuation ->
+            val call = RetrofitClient.apiService.getUserById(id)
 
-        call.enqueue(object : Callback<DancerProfile> {
-            override fun onResponse(call: Call<DancerProfile>, response: Response<DancerProfile>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        data = it
+            call.enqueue(object : Callback<User> {
+                override fun onResponse(call: Call<User>, response: Response<User>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            data = it
+                            Log.i("UserData", "User Data: $data")
+                            continuation.resume(it)
+                        }
+                    } else {
+                        continuation.resumeWithException(Exception("Failed to fetch user data"))
                     }
-                    Log.i("UserData", "User Data: $data")
-                } else {
-                    Log.i("UserData", "User Data Error: ${response.errorBody()?.string()}")
                 }
-            }
 
-            override fun onFailure(call: Call<DancerProfile>, t: Throwable) {
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<User>, t: Throwable) {
+                    continuation.resumeWithException(t)
+                }
+            })
+        }
     }
 
     override val id: Int

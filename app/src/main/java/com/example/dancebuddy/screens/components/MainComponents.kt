@@ -41,6 +41,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.dancebuddy.R
 import com.example.dancebuddy.Routes
 import com.example.dancebuddy.coredata.NotificationData
+import com.example.dancebuddy.coredata.user.MainUser
 import com.example.dancebuddy.coredata.viewModels.DanceClassViewModel
 import com.example.dancebuddy.coredata.viewModels.EventViewModel
 
@@ -56,24 +57,30 @@ fun Section(title: String, type: String) {
         when (type) {
             "classes" -> {
                 val danceClassViewModel: DanceClassViewModel = viewModel()
-                val danceClasses by danceClassViewModel.data.observeAsState(initial = emptyList())
+//              val danceClasses by danceClassViewModel.data.observeAsState(initial = emptyList())
                 val isLoading by danceClassViewModel.loading.observeAsState(initial = false)
 
-                if (isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .size(30.dp)
-                    )
-                } else if (danceClasses.isEmpty()) {
-                    EmptyItem("$type today")
-                } else {
-                    danceClasses.forEach {
-                        ClassItem(it)
+                when (isLoading) {
+                    true -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .size(30.dp)
+                        )
+                    }
+
+                    false -> {
+                        val danceClasses = danceClassViewModel.getUsersClasses(MainUser.id)
+
+                        if (danceClasses.isEmpty()) {
+                            EmptyItem("$type today")
+                        } else {
+                            danceClasses.forEach {
+                                ClassItem(it)
+                            }
+                        }
                     }
                 }
-
-//                ClassItem(TemplateData.getClass())
             }
             "notifications" -> {
                 val notificationData = NotificationData.getAllNotifications()
@@ -106,10 +113,7 @@ fun Section(title: String, type: String) {
                         EventItem(it)
                     }
                 }
-
-                //EventItem(TemplateData.getEvent())
             }
-
         }
     }
 }

@@ -2,7 +2,7 @@ package com.example.dancebuddy.api
 
 import com.example.dancebuddy.coredata.DanceClass
 import com.example.dancebuddy.coredata.Event
-import com.example.dancebuddy.coredata.user.DancerProfile
+import com.example.dancebuddy.coredata.user.User
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,10 +17,10 @@ interface ApiService {
     fun getEvents(): Call<List<Event>>
 
     @GET("user/")
-    fun getDancerProfiles(): Call<List<DancerProfile>>
+    fun getUsers(): Call<List<User>>
 
     @GET("user/{pk}/")
-    fun getUserById(@Path("pk") pk: Int): Call<DancerProfile>
+    fun getUserById(@Path("pk") pk: Int): Call<User>
 
     @POST("token/")
     suspend fun login(@Body request: LoginRequest): LoginResponse

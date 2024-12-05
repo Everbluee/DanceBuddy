@@ -118,21 +118,23 @@ private fun CardContent(navController: NavHostController) {
                     try {
                         val response = RetrofitClient.apiService.login(loginRequest)
 
-                        with(AuthPreferences) {
+                        val userID = with(AuthPreferences) {
                             saveAccessToken(response.access)
                             saveRefreshToken(response.refresh)
 
                             val token = decodeToken()
-                            val userID = token?.let { getUserIdFromToken(it) }
+                            token?.let { getUserIdFromToken(it) }
+                        }
 
+                        withContext(Dispatchers.IO) {
                             userID?.let {
                                 MainUser.fetchUserData(userID)
                             }
-                        }
 
-                        withContext(Dispatchers.Main) {
-                            navController.navigate(Routes.HOME.name) {
-                                popUpTo(Routes.LOGIN.name) { inclusive = true }
+                            withContext(Dispatchers.Main) {
+                                navController.navigate(Routes.HOME.name) {
+                                    popUpTo(Routes.LOGIN.name) { inclusive = true }
+                                }
                             }
                         }
                     } catch (e: Exception) {
