@@ -35,9 +35,9 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavHostController) {
             .wrapContentHeight(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Section("Your Classes", "classes")
+        Section("Your Classes Today", "classes")
         Section("Notifications", "notifications")
-        Section("Your Events", "events")
+        Section("Your Events This Week", "events")
     }
 }
 

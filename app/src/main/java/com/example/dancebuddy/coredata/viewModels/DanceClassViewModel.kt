@@ -48,7 +48,7 @@ class DanceClassViewModel : ViewModel() {
     }
 
     @Composable
-    fun getUsersClasses(id: Int): List<DanceClass> {
+    fun getUsersClasses(): List<DanceClass> {
         val classes by this.data.observeAsState(initial = emptyList())
 
         return classes.filter { it.users.contains(MainUser.data) }

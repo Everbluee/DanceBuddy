@@ -41,9 +41,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.dancebuddy.R
 import com.example.dancebuddy.Routes
 import com.example.dancebuddy.coredata.NotificationData
-import com.example.dancebuddy.coredata.user.MainUser
 import com.example.dancebuddy.coredata.viewModels.DanceClassViewModel
 import com.example.dancebuddy.coredata.viewModels.EventViewModel
+import java.time.LocalDate
 
 @Composable
 fun Section(title: String, type: String) {
@@ -57,7 +57,6 @@ fun Section(title: String, type: String) {
         when (type) {
             "classes" -> {
                 val danceClassViewModel: DanceClassViewModel = viewModel()
-//              val danceClasses by danceClassViewModel.data.observeAsState(initial = emptyList())
                 val isLoading by danceClassViewModel.loading.observeAsState(initial = false)
 
                 when (isLoading) {
@@ -70,12 +69,14 @@ fun Section(title: String, type: String) {
                     }
 
                     false -> {
-                        val danceClasses = danceClassViewModel.getUsersClasses(MainUser.id)
+                        val danceClasses = danceClassViewModel.getUsersClasses().filter {
+                            it.days.contains(LocalDate.now().dayOfWeek.name.lowercase())
+                        }
 
                         if (danceClasses.isEmpty()) {
                             EmptyItem("$type today")
                         } else {
-                            danceClasses.forEach {
+                            danceClasses.map {
                                 ClassItem(it)
                             }
                         }
