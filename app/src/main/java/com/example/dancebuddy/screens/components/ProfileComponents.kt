@@ -11,24 +11,31 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import com.example.dancebuddy.R
+import com.example.dancebuddy.Routes
+import com.example.dancebuddy.api.AuthPreferences
 import com.example.dancebuddy.coredata.user.MainUser
+import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileCard(profile: MainUser) {
+fun ProfileCard(profile: MainUser, navController: NavController) {
+    val coroutineScope = rememberCoroutineScope()
+
     Card (
         modifier = Modifier
             .wrapContentHeight()
@@ -43,9 +50,22 @@ fun ProfileCard(profile: MainUser) {
             ProfilePicture(profile.getImage())
             ProfileName(profile)
             Button(
-                onClick = { TODO("Logout, clear jwt, return to login screen") },
+                colors = ButtonDefaults.buttonColors(Color(0xFFB866C4)),
+                onClick = {
+                    coroutineScope.launch {
+                        AuthPreferences.clearTokens()
+                        navController.navigate(Routes.LOGIN.name) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                },
             ) {
-                Text("Logout")
+                Text(
+                    text = "Logout",
+                    fontSize = 16.sp
+                )
             }
         }
     }
@@ -106,7 +126,7 @@ fun ProfileName(profile: MainUser) {
                         end = 15.dp
                     ),
                     fontSize = 30.sp,
-                    color = Color(0xFFE88EC9)
+                    color = Color.Black
                 )
                 Text(
                     text = "$firstName $lastName",
@@ -141,10 +161,4 @@ fun ProfileName(profile: MainUser) {
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun Prev() {
-    ProfileCard(MainUser)
 }

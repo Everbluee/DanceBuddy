@@ -1,5 +1,6 @@
 package com.example.dancebuddy.screens.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -126,8 +128,16 @@ fun TopBar(navController: NavHostController) {
     val currentRoute = currentBackStackEntry.value?.destination?.route
 
     CenterAlignedTopAppBar(
+        modifier = Modifier.background(
+            brush = Brush.linearGradient(
+                listOf(
+                    Color(0xFF7C34C1),
+                    Color(0xFFE88EC9)
+                )
+            )
+        ),
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color(0xFFB866C4),
+            containerColor = Color.Transparent,
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         title = {
@@ -205,8 +215,17 @@ fun NavBar(navController: NavHostController) {
     val currentRoute = currentBackStackEntry.value?.destination?.route
 
     NavigationBar(
-        modifier = Modifier.fillMaxWidth(),
-        containerColor = Color(0xFFB866C4),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                brush = Brush.linearGradient(
+                    listOf(
+                        Color(0xFF7C34C1),
+                        Color(0xFFE88EC9)
+                    )
+                )
+            ),
+        containerColor = Color.Transparent,
         contentColor = Color.White
     ) {
         items.forEach { item ->

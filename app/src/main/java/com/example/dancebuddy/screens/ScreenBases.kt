@@ -92,7 +92,7 @@ fun ProfileScreen(innerPadding: PaddingValues, navController: NavHostController)
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfileCard(MainUser)
+        ProfileCard(MainUser, navController)
     }
 }
 
